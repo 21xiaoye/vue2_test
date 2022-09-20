@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>样式绑定-绑定class样式</title>
+    <style>
+        .basic {
+ 
+        } 
+        .happy {}
+        .a{} 
+        .b{} 
+        .c{} 
+    </style> 
+</head> 
+<body> 
+    <div id="r oot">
+        <!--字 符串写法，样式类名不确定，需要动态绑定-->
+        <div c lass="basic" :class="mood" @click="changeMood"></div><br/>
+        <!--数 组写法，要绑定的样式个数不确定，名字不确定-->
+        <div c lass="basic" :class="arr"></div>
+         <!-- 绑定对象写法，要绑定的样式个数确定，名字确定，需要动态决定是否需要使用样式-->
+         <div  class="basic" :class="Object"></div>
+ 
+         <!-- 内联样式绑定-->
+         <div  class="basic" :style="styleObject"></div>
+    </div> 
+    <script ty pe="module">
+        import {createApp} from 'vue'
+ 
+        const vm=createApp({
+            data(){
+                return{
+                    mood:'normal', 
+                    arr:[a,d,c],
+                    Object:{
+                        a:false,
+                        b:false
+                    },styleObject:{
+                        fontSize:'40px',//fontsize的命名不能随便写，必须对应属性，fontsize对应font-size属性
+                        color:'red'
+                    }
+                }
+            },methods: {
+                changeMood(){
+                    //this.mood='happy'
+                    const arrr=['happy','sad','normal']
+                    const index=Math.floor(Math.random()*3)//向下取整
+                    this.mood=arr[index]
+                }
+            },
+        })
+        vm.mount('#root')
+    </script>
+</body>
+</html>

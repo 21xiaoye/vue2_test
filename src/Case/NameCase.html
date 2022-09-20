@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例-插值语法实现</title>
+    
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+
+      <div id="root">
+        姓:<input type="text" v-model="firstName"><br/>
+        名:<input type="text" v-model="lastName"><br/>
+        全名:<span>{{firstName.slice(0,3)}}{{lastName}}</span>
+      </div>
+
+      <script type="module">
+        import {createApp} from 'vue'
+        const vm=createApp({
+            data(){
+                return {
+                    firstName:'xiao_',
+                    lastName:'ye'
+                }
+            }
+        })
+        vm.mount('#root')
+      </script>
+</head>
+<body>
+    
+</body>
+</html>

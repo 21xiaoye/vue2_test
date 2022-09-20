@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+      <!--
+        创建一个Vue实例，且要传入一个配置对象
+        容器里的代码依然符合Html规范
+        容器里的代码被称为Vue模板
+      -->
+
+     <!--
+        {{xxx}}中的xxx要写js表达式,且xxx可以自动读取到data中的所有属性
+        一旦data中的数据发生变化，那么模板中用到该数据的地方也会自动更新 
+     -->
+      <div id="app">
+        <h1 ref="tile">Hello,{{message.toUpperCase()}},{{Date.now()}}</h1><!--插值语法-->
+      </div>
+      <div id="index">
+        <!--插值语法-->
+        <h1>{{add}}</h1>
+        <!--指令语法-->
+        <a v-bind:href="url">百度</a>
+      </div>
+      <!--v-bind 指令指示 Vue 将元素的 id  与组件的属性保持一致（动态的绑定值），可以简写为":"。
+        如果绑定的值是 null 或者 undefined，那么该 id 将会从渲染的元素上移除。-->
+
+      <script type="module">//为了避免被覆盖，你可以通过设置 module 属性来为它们定义注入后计算属性的名称
+        import { createApp } from 'vue'
+    
+        createApp({//createApp则用于创建应用实例，进行应用实例的初始化
+          data() {//data中用于存储数据，数据供mount指定的容器使用
+            return {
+              message: 'Hello Vue!' 
+            }
+          }
+        }).mount('#app')
+
+        createApp({
+            data(){
+                return{
+                    add:'Hello,xiao_ye',
+                    url:'https://www.baidu.com'//url必须加协议，否则会当成router处理
+                }
+            }
+        }).mount('#index')
+      </script>
+
+      <!--
+        Vue模板的两大类：
+            1.插值语法：
+                功能：用于解析标签体内容；
+                写法：{{xxx}}，xxx是js表达式，且可以直接读取到data中的所有属性
+            2.指令语法：
+                功能：用于解析标签（标签属性，标签体内容，绑定事件...
+      -->
+</body>
+</html>

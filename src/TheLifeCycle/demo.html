@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+</head>
+<!--
+    生命周期:
+        又叫生命周期回调函数、生命周期函数、生命周期钩子
+        Vue在关键时刻帮我们调用一些特殊名称的函数；
+        生命周期函数名称不可以更改，但函数的具体内容可以根据需求进行更改；
+        生命周期函数中的this指向是vm或组件实例对象
+-->
+<body>
+    <div id="root">
+        <h2 :style="{opacity}">
+            岁月画卷留下你的影子
+        </h2>
+         <button @click="stopTimer">停止</button>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip=false
+        const vm=new Vue({
+            el:'#root',
+            data() {
+                return {
+                    opacity:1
+                }
+            },methods: {
+                stopTimer(){
+                    //clearInterval(this.timer)
+                    //this.opacity=1
+                    this.$destroy()
+                }
+            },mounted() {//Vue完成模板的解析并把初始的真实DOM元素放入页面后(挂载完成)调用mounted,只会执行这一次
+                this.timer=setInterval(()=>{
+                vm.opacity-=0.01
+                if(vm.opacity<=0){
+                    vm.opacity=1
+                    }
+                },16)
+            },beforeDestroy() {
+                clearInterval(this.timer)
+            },
+        })
+        //外部定时器实现
+        /**setInterval(()=>{
+            vm.opacity-=0.01
+            if(vm.opacity<=0){
+                vm.opacity=1
+            }
+        },16)*/
+    </script>
+</body>
+</html>

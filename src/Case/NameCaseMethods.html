@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例-methods实现</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <div id="root">
+        姓:<input type="text" v-model="lName"><br/>
+        名:<input type="text" v-model="rName"><br/>
+        全名:<span>{{fullName()}}</span>
+    </div>
+
+    <script type="module">
+        import {createApp} from 'vue'
+        const vm=createApp({
+            data(){
+                return {
+                    lName:'dq',
+                    rName:'d'
+                }
+            },
+            methods:{
+                fullName(){
+                    console.log('@----函数被调用')
+                    return this.lName+this.rName
+                }
+            }
+        })
+        vm.mount('#root')
+        console.log(vm)
+        //data中的数据一旦发生变化,vue的模板都会重新解析一遍，没有用到就不会重新读取，用到就会重新读取
+    </script>
+</body>
+</html>

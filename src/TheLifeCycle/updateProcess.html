@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <title>生命周期-更新流程</title>
+    <!--
+        此时，数据是新的，但页面是旧的，页面没有和数据保持同步(beforeUpdate)，
+        根据新数据，生成新的虚拟DOM，随后与旧的虚拟DOM进行比较，最终完成页面更新，即完成了Model->View的更新(Virtual DOM re-render and patch)，
+        数据是新的，页面也是新的，即页面和数据保持同步(update)
+    -->
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+       Vue.config.productionTip=false
+
+        const vm=new Vue({
+            el:'#root',
+            template:`<div><h1>{{n}}</h1><button @click="n++">点我n加一</button></div>`,
+            data() {
+                return {
+                    n:1
+                }
+            },
+            beforeCreate() {
+                console.log("初始化生命周期、事件，数据代理未开始")
+                console.log(this)//没有_data
+            },
+            created() {
+                console.log("初始化数据监测，数据代理")
+                console.log(this)//_data
+            },
+            beforeMount() {
+                console.log("生成好虚拟DOM,页面呈现的是未经Vue编译的DOM结构，所有的DOM的操作，最终都不会奏效")
+            },
+            mounted() {
+                console.log("挂载，页面呈现经过Vue编译的DOM，对DOM的操作有效，初始化过程结束（开启定时器、发送网络请求、订阅消息、绑定自定义事件等初始化操作）")
+                console.log(this.$el instanceof HTMLElement)
+            },
+            beforeUpdate() {
+                console.log("数据是新的，页面是旧的，页面没有和数据保持同步")
+                console.log(this.n)
+                debugger
+            },
+            updated() {
+                console.log("数据和页面都是新的，页面和数据保持同步")
+            },
+        })
+    </script>
+</body>
+</html>

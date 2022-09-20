@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例-计算属性实现</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <div id="root">
+        姓:<input type="text" v-model="lName"><br/>
+        名:<input type="text" v-model="rName"><br/>
+        全名:<span>{{fullName}}</span>
+    </div>
+
+    <script type="module">
+        import {createApp} from 'vue'
+        const vm=createApp({
+            data(){
+                return {
+                    lName:'xiao',
+                    rName:'ye'
+                }
+            },
+            computed:{
+                fullName:{
+                    get(){
+                        //当读取fullName时，get就会被调用，且返回值为fullName的值
+                        console.log('getter函数被调用-----')
+                        console.log(this)
+                        return this.lName + '-' + this.rName
+                        //get什么时候被调用:1.初次读取fullName时;2.所依赖的数据发生变化时
+                    },
+                    //当数据被修改的时候会被调用
+                    set(value){
+                       const arr=value.split('-')
+                       this.lName=arr[0]
+                       this.rName=arr[1]
+                    }
+                }
+            }
+        })
+        vm.mount('#root')
+    </script>
+</body>
+</html>
+<!--
+    计算属性值会基于其响应式依赖被缓存。
+    一个计算属性仅会在其响应式依赖更新时才重新计算。
+    这意味着只要 author.books 不改变，
+    无论多少次访问 publishedBooksMessage 都会立即返回先前的计算结果，
+    而不用重复执行 getter 函数。
+-->
+
+<!--
+    计算属性的简写:
+        不使用set方法的情况下:
+         computed:{
+                fullName(){
+                    return this.lName +'-'+ this.rName
+                }
+            }
+
+-->

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例-监视属性实现</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <div id="root">
+        姓:<input type="text" v-model="lName"><br/>
+        名:<input type="text" v-model="rName"><br/>
+        全名:<span>{{fullName}}</span>
+    </div>
+
+
+    <script type="module">
+        import {createApp} from 'vue'
+        const vm=createApp({
+            data(){
+                return{
+                    lName:'xiao',
+                    rName:'ye',
+                    fullName:'xiao-ye'
+                }
+            },
+            watch:{
+                lName(newValue){
+                   setTimeout(()=>{
+                    this.fullName=newValue+'-'+this.lName
+                   },1000)
+                },rName(newValue){
+                    this.fullName=this.lName+'-'+newValue
+                }
+            }
+        })
+        vm.mount('#root')
+    </script>
+</body>
+</html>

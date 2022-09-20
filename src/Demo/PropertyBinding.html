@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>属性绑定</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+
+    <div id="root">
+        单向数据绑定:<input type="text" :value="name"><!--数据只能从data流向页面-->
+        <!--
+            使用v-model进行双向数据绑定；
+            v-mpdel只能使用在表单类元素（输入类元素input,select等）上面；
+            v-model:value可以简写为：v-model,因为v-model默认收集的就是value值
+        -->
+        双向数据绑定:<input type="text" v-model="name1"><!--数据不仅能从data流向页面还能从页面流向data-->
+        <!-- v-model="name1"相当于:
+        <input type="text" v-bind:value="name1" v-on:input="name1=$event.target.value"/>
+        简写为：<input type="text" :value="name1" @input="name1=$event.target.value"/>-->
+    </div>
+
+    <script type="module">
+        import {createApp} from 'vue'
+        
+        createApp({
+             data(){
+                return{
+                    name:"xiao_ye",
+                    name1:"xiao_ye"
+                }
+            }
+        }).mount('#root')
+    </script>
+</body>

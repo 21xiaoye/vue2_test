@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-once指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <button @click="n++">点我n加一</button>
+        <h2>当前n的值为:{{n}}</h2>
+        <h2 v-once>初始化的n值为:{{n}}</h2>
+    </div>
+    <!--
+        v-once所在节点在初次动态渲染之后，就是为静态内容；
+        以后的数据更新不会引起v-once所在结构的更新，可以优化性能
+    -->
+    <script type="text/javascript">
+        Vue.config.productionTip=false
+        const vm=new Vue({
+            el:'#root',
+            data() {
+                return {
+                    n:1
+                }
+            },
+        })
+    </script>
+</body>
+</html>

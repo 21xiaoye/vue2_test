@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收集数据表单</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <form @submit.prevent="demos">
+            <label for="demo" >账号:</label>
+            <input type="text" id="demo"v-model.trim="unerInfo.account"/><!--trim修饰符去掉前后的空格-->
+            <br/>
+            <label for="demo2">密码:</label>
+            <input type="password" id="demo2" v-model="unerInfo.password"/>
+            <br/>
+            性别:男<input type="radio" name="sexs" value="男" v-model="unerInfo.sex"/>女:<input type="radio" name="sexs" value="女" v-model="unerInfo.sex"/>
+            <br/>
+            年龄:<!--number修饰符将输入的字符串转换为数字-->
+            <input type="number" v-model.number="unerInfo.age"/>
+            <br/>
+
+            爱好:
+            学习<input type="checkbox" value="学习" v-model="unerInfo.hobby" >
+            打球<input type="checkbox" value="打球" v-model="unerInfo.hobby" >
+            游戏<input type="checkbox" value="游戏" v-model="unerInfo.hobby">
+            <br/>
+            所属校区:
+            <select v-model="unerInfo.city">
+                <option value="">请选择校区</option>
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="深圳">深圳</option>
+                <option value="武汉">武汉</option>
+            </select>
+            <br/>
+            其它信息:
+            <textarea v-model.lazy="unerInfo.other"></textarea><!--lazy修饰符不进行实时收集(失去焦点在收集)-->
+            <br/>
+            <input type="checkbox" v-model="unerInfo.agree">阅读并接受<a href="http://www.baidu.com">《用户协议》</a>
+            <br/>
+            <button>提交</button>
+        </form>
+
+
+
+
+        <script type="text/javascript">
+             Vue.config.productionTip = false
+             const vm=new Vue({
+                el:'#root',
+                data() {
+                    return {
+                        unerInfo:{
+                            password:'',
+                            account:'',
+                            sex:'男',
+                            hobby:[],
+                            city:'',
+                            other:'',
+                            agree:'',
+                            age:''
+                        }
+                    }
+                },methods: {
+                    demos(){
+                        console.log(JSON.stringify(this.unerInfo))
+                    }
+                }
+             })
+        </script>
+    </div>
+</body>
+</html>

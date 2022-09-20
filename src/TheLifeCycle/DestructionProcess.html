@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <title>生命周期-销毁流程</title>
+    <!--
+        此时，vm中所有的:data、methods、指令等等，都处于可用状态，马上要执行销毁过程，
+        一般在此阶段：关闭定时器、取消消息订阅、解锁自定义事件等收尾操作
+    -->
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+       Vue.config.productionTip=false
+
+        const vm=new Vue({
+            el:'#root',
+            template:`<div><h1>{{n}}</h1><button @click="n++">点我n加一</button>
+                <button @click="bye">点我开始销毁流程</button></div>`,
+            data() {
+                return {
+                    n:1
+                }
+            },methods: {
+                bye(){
+                console.log("将开始对vm执行销毁")
+                this.$destroy()//完全销毁一个实例，清理它与其它实例的连接，解绑它的全部指令及事件监听器
+            }
+                
+            },
+            beforeCreate() {
+                console.log("初始化生命周期、事件，数据代理未开始")
+                console.log(this)//没有_data
+            },
+            created() {
+                console.log("初始化数据监测，数据代理")
+                console.log(this)//_data
+            },
+            beforeMount() {
+                console.log("生成好虚拟DOM,页面呈现的是未经Vue编译的DOM结构，所有的DOM的操作，最终都不会奏效")
+            },
+            mounted() {
+                console.log("挂载，页面呈现经过Vue编译的DOM，对DOM的操作有效，初始化过程结束（开启定时器、发送网络请求、订阅消息、绑定自定义事件等初始化操作）")
+                console.log(this.$el instanceof HTMLElement)
+            },
+            beforeUpdate() {
+                console.log("数据是新的，页面是旧的，页面和数据未保持同步")
+                console.log(this.n)
+                debugger
+            },
+            updated() {
+                console.log("数据和页面都是新的，页面和数据保持同步")
+            },//when vm.$destroy is called，当vm.$destroy方法执行开始进行销毁操作
+            beforeDestroy() {//能访问数据和调用方法，但不会触发更新
+                console.log("开始进行销毁流程，将关闭定时器、取消订阅消息、解锁自定义事件等收尾操作")
+            },destroyed() {//Teardown watchers,chlid components and event listeners 拆解监视、chlid 组件和事件监听器
+                console.log("vm销毁完毕")
+            },
+        })
+    </script>
+</body>
+</html>

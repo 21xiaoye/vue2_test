@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义组件-非单文件组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <!--
+        一个文件包含多个组件
+    -->
+</head>
+<body>
+    <div id="root">
+        <!--第三步:编写组件标签-->
+        <school></school>
+        <hr>
+        <student></student>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false
+        //创建一个school组件,这里的student是一个中转变量，不是最终的组件名
+        const school=Vue.extend({
+            template:`<div>
+                        <h2>学校名称:<h3 v-show="is">{{schoolname}}</h3></h2>
+                        <h2>学校地址:{{addres}}</h2>
+                        <button @click="showName">显示学校名称</button>
+                </div>`,
+            //组件定义时不需要写el配置项，因为最终所有的组件都要被一个vm管理，由vm决定服务于那个容器
+            data() {
+                return {
+                    schoolname:'新化完全中学',
+                    addres:'新化',
+                    is:''
+                }
+            },methods:{
+                showName(){
+                    this.is=!this.is
+                }
+            }
+        })
+
+        //创建student组件
+        const student =Vue.extend({
+            template:`<div>
+                        <h2>学生姓名:{{studentname}}</h2>
+                        <h2>学生年龄:{{age}}</h2>
+                </div>`,
+            data(){
+                return{
+                    studentname:'xiao_ye',
+                    age:20
+                }
+            }
+        })
+        //全局注册组件
+        Vue.component('student',student)
+        //创建vue实例对象
+        const vm=new Vue({
+            el:'#root',
+            //注册组件，组件名:中转变量名(局部注册)
+            components:{
+                school:school,
+            }
+        })
+    </script>
+</body>
+</html>

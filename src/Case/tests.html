@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+         a,img{
+            border: 0;
+         }
+
+         body{
+            font:12px/180% "Microsoft YaHei","微软雅黑,"宋体";
+         }
+         #bodybj{
+            width: 60%;
+            margin-left: 20%;
+         }
+         #box{
+            margin: auto;
+            width: 660px;
+            font-size: 66px;
+            height: 94px;
+            line-height: 94px;
+            overflow: hidden;
+            color:yellow;
+            text-align: center;
+            padding: 0 30px;
+            margin-top: 200px;
+         }
+
+         #bt{
+            margin: auto;
+            width: 200px;
+            text-align: center;
+            margin-top: 75px;
+            color: yellow;
+            font-size: 25px;
+            line-height: 28px;
+            cursor: pointer;
+         }
+         #div{
+            text-align: center;
+            margin: 50px 0;
+            color: yellow;
+            font:normal 14px/24px 'MicroSoft YeHei'
+         }
+    </style>
+
+    <script type="text/javascript">
+        var arr=["1号球","2号球","3号球","4号球","5号球","6号球","7号球","8号球","9号球"];
+        var MyTime=null;
+        function doit(){
+            var bt=window.document.getElementById("bt");
+            if( MyTime==null){
+                bt.innerHTML="停止抽奖";
+                show()
+            }else{
+                bt.innerHTML="开始抽奖"
+                clearTimeout(MyTime);
+                MyTime=null;
+            }
+        }
+        function show(){
+            var box=window.document.getElementById("box");
+            var num=Math.floor((Math.random()*100000))%arr.length;
+            box.innerHTML=arr[num];
+            MyTime=setTimeout("show()",1)
+        }
+    </script>
+</head>
+<body >
+    <div id="bodybj">
+        <img src="src/assets/image2.jpg"/>
+        <div id="box">准备好了，开始抽奖吧！</div>
+        <div id="bt" onclick="doit()">开始抽奖</div>
+        <div id="div"><P>努力归努力，运气归锦鲤<br/>每个人都会成为自己的锦鲤</P></div>
+    </div>
+</body>
+</html>

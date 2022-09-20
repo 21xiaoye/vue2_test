@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <div id="root">
+        <h2>当前n的值为:{{n}}</h2>
+        <div v-show="n===1">你是谁？</div>
+        <div v-show="n===2">你来自哪里？</div>
+        <div v-show="n===3">你来干什么？</div>
+        <div v-if="n===4">回答我的问题</div>
+        <div v-else-if="n===5">你可以往前走了</div>
+        <div v-else-if="n===5">你难道不知道吗？</div>
+        <div v-else>对不起,请你离开</div>
+        <button @click="n++">点击</button>
+        <template v-if="n===6"><!--template只能配合v-if使用，不能配合v-show使用-->
+            <h1>你好！</h1>
+            <h1>我是邺</h1>
+            <h1>很高兴认识你</h1>
+        </template>
+    </div>
+
+    <script type="module">
+       import {createApp} from 'vue'
+       const vm=createApp({
+            data() {
+                return {
+                    n:0,
+                }
+            },
+           
+       }).mount('#root')
+    </script>
+</body>
+</html>
+<!--
+    条件渲染：
+        条件渲染指令:
+            v-if 与 v-else
+            v-show
+        比较v-if与v-show：
+            需要频繁进行切换使用v-show
+            当条件不成立的时候，v-if的所有节点不会解析(项目中使用)
+        
+        v-if:
+            v-if 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回真值时才被渲染。
+        v-else:
+            使用 v-else 为 v-if 添加一个“else 区块”。
+            一个 v-else 元素必须跟在一个 v-if 或者 v-else-if 元素后面，否则它将不会被识别。
+
+        v-else-if:
+            v-else-if 提供的是相应于 v-if 的“else if 区块”。它可以连续多次重复使用：
+            一个使用 v-else-if 的元素必须紧跟在一个 v-if 或一个 v-else-if 元素后面。
+        -->

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!--overflow:auto滚动-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件处理</title>
+    <!--
+        vue的事件修饰符：
+            1.prevent：阻止事件的默认行为
+            2.stop：阻止事件的冒泡
+            3.once：事件只触发一次
+            4.captrue：使用事件的捕获行为
+            5.self：只要event.target是当前操作的元素时才触发事件
+            6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕
+    -->
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <div id="root">
+        <h2>{{name}},欢迎光临</h2>
+        <button @click="showInfo1(66,$event)">点我提示信息</button>
+        <a href="https://www.baidu.com" @click.prevent="showInfo2($event)">百度</a>
+        <input type="text" placeholder="按下回车提示输入" @keyup.enter="showInfo3($event)"/>
+        <!--vue需取消默认行为 : "@click.prevent",添加prevent修饰符-->
+    </div>
+
+    <script type="module">
+        import {createApp} from 'vue'
+        const vm=createApp({
+            data(){
+                return{
+                    name:'xiao_ye'
+                }
+            },
+            methods:{
+                showInfo1 (number,event){
+                   //console.log(this===vm)
+                   console.log(number)
+                   console.log(event.target.innerText)
+                },
+                showInfo2 (event){
+                    //event.preventDefault()//需要默认行为，这里取消a标签的默认行为
+                    //event.stopPropagation()取消冒泡行为
+                    alert('同学你好')
+                },
+                showInfo3(event){
+                    if(event.keyCode!=13) return 
+                    alert(event.target.value)
+
+                }
+                
+                // Vue常用的按键别名：
+                // 回车：enter
+                // 删除：delete
+                // 退出：esc
+                // 空格：space
+                // 换行：tab（配合KeyDown使用）
+                // 上：up
+                // 下：down
+                // 左：left
+                // 右:right 
+                //定义一个别名按键
+                //Vue.config.KeyCodes.huiche=13//定义了一个回车按键，它的keyCode码是13
+            }
+        })
+        vm.mount('#root')
+        //console.log(vm)
+    </script>
+    <!--
+        事件的基本使用：
+        1.使用v-on或者@xxx绑定事件，其中xxx是事件名
+        2.事件的回调需要配置在methods对象中，最终会在vm上
+        3.methods中配置的函数，都是被vue管理的函数，this的指向是vm或者组件实例对象
+    -->
+</body>
+</html>

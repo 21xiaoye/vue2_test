@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components构造函数</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <school></school>
+        <hr>
+        <student></student>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false
+        Vue.prototype.x=100
+        const school=Vue.extend({
+            template:`<div>
+                        <h2>学校名称:<h3 v-show="is">{{schoolname}}</h3></h2>
+                        <h2>学校地址:{{addres}}</h2>
+                        <button @click="showName">显示学校名称</button>
+                        <button @click="showx">点我获取x的值</button>
+                </div>`,
+            data() {
+                return {
+                    schoolname:'新化完全中学',
+                    addres:'新化',
+                    is:''
+                }
+            },methods:{
+                showName(){
+                    this.is=!this.is
+                },
+                showx(){
+                    //console.log(this.x)
+                    console.log(school.prototype.__proto__.x)
+                }
+            }
+        })
+        const student =Vue.extend({
+            template:`<div>
+                        <h2>学生姓名:{{studentname}}</h2>
+                        <h2>学生年龄:{{age}}</h2>
+                </div>`,
+            data(){
+                return{
+                    studentname:'xiao_ye',
+                    age:20
+                }
+            }
+        })
+        const vm=new Vue({
+            el:'#root',
+            components:{
+                school:school,
+            }
+        })
+        console.log(school.prototype.__proto__===Vue.prototype)//组件实例对象可以访问Vue原型上的属性、方法
+    </script>
+</body>
+</html>
+<!--
+    1.定义的school组件本质是一个名为VueComponent的构造函数，是Vue.extend生成的；
+    2.只需要写<school></school>或者<school/>，Vue解析时就会创建组件的实例对象，即执行new VueComponent(options);
+    3.每次调用Vue.extend，返回的都是一个全新的VueComponent;
+    4.关于this指向:
+        (1).组件配置中:
+            data函数、methods中的函数、watch函数、computed中的函数,它们的this均是[VueComponent实例对象]
+        (2).new Vue(options)配置中:
+            data函数、methods中的函数、watch函数、computed中的函数，它们的this均是[Vue实例对象]
+-->

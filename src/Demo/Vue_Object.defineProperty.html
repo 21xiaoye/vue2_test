@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据代理</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+<body>
+    <script type="text/javascript">
+        //person中的age属性的属性值，随着number的变化而发生变化
+        let number=19
+        let person={
+            name:'张三',
+            sex:'男',
+        }
+
+        /**Object.defineProperty(person,'age',{
+            value:20,//通过该方法定义的age值无法进行更改,如果需要修改属性值，需要添加 ”writable:true“
+            enumerable:true,//控制属性是否可以枚举，默认值为false
+            writable:true,//控制属性是否可以被修改，默认值为false
+            configurable:true//控制属性是否可以被删除，默认值为false
+        })//该写法无法进行枚举,遍历；如果需要进行遍历需要添加 "enumerable:true"
+        console.log(Object.keys(person))
+        console.log(person)
+        for(let key in person){
+            console.log('@',person[key])
+        }*/
+
+        Object.defineProperty(person,'age',{  
+            //当读取person的age值的时候，get函数就会被调用，且返回值是age的值
+            get:function(){
+                return number
+            },//每访问一次age就会调用一次get函数
+
+            //当修改person的age属性的时候，set函数就会被调用，且会收到修改的具体值
+            set(value){
+                console.log('正在修改值')
+                number=value
+            }
+        })
+      
+    </script>
+</body>
+</html>
